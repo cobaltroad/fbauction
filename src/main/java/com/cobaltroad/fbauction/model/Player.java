@@ -2,15 +2,14 @@ package com.cobaltroad.fbauction.model;
 
 import lombok.AllArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "player")
 @AllArgsConstructor
-public class Player {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "player_type")
+public abstract class Player {
     @Id
     @GeneratedValue
     private int id;
@@ -21,5 +20,9 @@ public class Player {
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getName() {
+        return firstName + " " + lastName;
     }
 }
