@@ -43,7 +43,7 @@ public class PlayerRepositoryTest {
 
     @Test
     public void hitterPositionsAreSaved() {
-        Position[] positions = { Position.CATCHER, Position.FIRST_BASEMAN };
+        List<Position> positions = Arrays.asList(Position.CATCHER, Position.FIRST_BASEMAN);
         hitter.setPositions(positions);
         repository.save(hitter);
         Hitter actual = (Hitter) repository.findByName("foo", "bar");

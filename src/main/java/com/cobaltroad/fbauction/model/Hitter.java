@@ -15,11 +15,10 @@ import java.util.stream.Stream;
 public class Hitter extends Player {
 
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = Position.class)
-    @CollectionTable(name = "hitter_position")
+    @ElementCollection(targetClass = Position.class, fetch = FetchType.EAGER)
     @Column(name = "position")
-    @OrderColumn(name = "position_order")
-    private Position[] positions;
+    @CollectionTable(name = "hitter_position", joinColumns = @JoinColumn(name = "hitter_id"))
+    private List<Position> positions;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "hitter_id")
@@ -32,11 +31,11 @@ public class Hitter extends Player {
     public boolean isA(Position position) {
         switch (position) {
             case CORNER_INFIELDER:
-                return Stream.of(positions).anyMatch(p -> p == Position.FIRST_BASEMAN || p == Position.THIRD_BASEMAN);
+                return positions.stream().anyMatch(p -> p == Position.FIRST_BASEMAN || p == Position.THIRD_BASEMAN);
             case MIDDLE_INFIELDER:
-                return Stream.of(positions).anyMatch(p -> p == Position.SECOND_BASEMAN || p == Position.SHORTSTOP);
+                return positions.stream().anyMatch(p -> p == Position.SECOND_BASEMAN || p == Position.SHORTSTOP);
             default:
-                return Stream.of(positions).anyMatch(p -> p == position);
+                return positions.stream().anyMatch(p -> p == position);
         }
     }
 }
