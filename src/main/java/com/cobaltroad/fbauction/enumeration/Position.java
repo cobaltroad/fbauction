@@ -1,5 +1,7 @@
 package com.cobaltroad.fbauction.enumeration;
 
+import javax.persistence.Entity;
+
 public enum Position {
     CATCHER,
     FIRST_BASEMAN,

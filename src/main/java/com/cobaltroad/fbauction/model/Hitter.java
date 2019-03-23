@@ -5,18 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Entity
 @DiscriminatorValue(value = "hitter")
+@Getter
+@Setter
 public class Hitter extends Player {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Position.class)
-    @OrderColumn
-    @Getter
-    @Setter
+    @CollectionTable(name = "hitter_position")
+    @Column(name = "position")
+    @OrderColumn(name = "position_order")
     private Position[] positions;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "hitter_id")
+    private List<HitterProjection> projections;
 
     public Hitter(String firstName, String lastName) {
         super(firstName, lastName);
@@ -32,5 +39,4 @@ public class Hitter extends Player {
                 return Stream.of(positions).anyMatch(p -> p == position);
         }
     }
-
 }

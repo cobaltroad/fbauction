@@ -1,6 +1,9 @@
 package com.cobaltroad.fbauction.model;
 
+import com.cobaltroad.fbauction.enumeration.Team;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -16,6 +19,11 @@ public abstract class Player {
 
     private String firstName;
     private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Getter
+    @Setter
+    private Team team;
 
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
