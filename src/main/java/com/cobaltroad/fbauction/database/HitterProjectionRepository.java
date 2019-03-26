@@ -15,16 +15,34 @@ public interface HitterProjectionRepository extends JpaRepository<HitterProjecti
     @Query(value = "SELECT STDDEV(CAST(hits AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
     Double stddevOfAllHits(@Param("league") String league);
 
-    @Query(value = "SELECT SUM(hits) FROM HitterProjection WHERE league = :league")
-    Integer sumOfAllHits(@Param("league") String league);
+    @Query(value = "SELECT AVG(CAST(at_bats AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double averageOfAllABs(@Param("league") String league);
 
-    @Query(value = "SELECT SUM(atBats) FROM HitterProjection WHERE league = :league")
-    Integer sumOfAllAtBats(@Param("league") String league);
+    @Query(value = "SELECT STDDEV(CAST(at_bats AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double stddevOfAllABs(@Param("league") String league);
 
-    default double battingAverage(String league) {
-        int hits = null == sumOfAllHits(league) ? 0 : sumOfAllHits(league);
-        int atBats = null == sumOfAllAtBats(league) ? 0 : sumOfAllAtBats(league);
+    @Query(value = "SELECT AVG(CAST(runs AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double averageOfAllRuns(@Param("league") String league);
 
-        return atBats == 0 ? 0.0 : (1.0 * hits / atBats);
-    }
+    @Query(value = "SELECT STDDEV(CAST(runs AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double stddevOfAllRuns(@Param("league") String league);
+
+    @Query(value = "SELECT AVG(CAST(runs_batted_in AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double averageOfAllRBIs(@Param("league") String league);
+
+    @Query(value = "SELECT STDDEV(CAST(runs_batted_in AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double stddevOfAllRBIs(@Param("league") String league);
+
+    @Query(value = "SELECT AVG(CAST(homeruns AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double averageOfAllHRs(@Param("league") String league);
+
+    @Query(value = "SELECT STDDEV(CAST(homeruns AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double stddevOfAllHRs(@Param("league") String league);
+
+    @Query(value = "SELECT AVG(CAST(stolen_bases AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double averageOfAllSBs(@Param("league") String league);
+
+    @Query(value = "SELECT STDDEV(CAST(stolen_bases AS FLOAT)) FROM hitter_projection WHERE league = :league", nativeQuery = true)
+    Double stddevOfAllSBs(@Param("league") String league);
+
 }

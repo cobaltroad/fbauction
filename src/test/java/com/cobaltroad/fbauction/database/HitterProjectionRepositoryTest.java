@@ -26,10 +26,7 @@ public class HitterProjectionRepositoryTest {
         HitterProjection projection2 = HitterProjection.builder().league("nl").hits(2).atBats(4).build();
         repository.save(projection2);
 
-        assertEquals(3, (int) repository.sumOfAllHits("nl"));
-        assertEquals(6, (int) repository.sumOfAllAtBats("nl"));
-        assertEquals(0.500, repository.battingAverage("nl"), 0.001);
-
         assertEquals(1.5, (double) repository.averageOfAllHits("nl"));
+        assertEquals(0.71, repository.stddevOfAllHits("nl"), 0.01);
     }
 }

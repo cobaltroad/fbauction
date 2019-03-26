@@ -1,4 +1,4 @@
-package com.cobaltroad.fbauction.listener;
+package com.cobaltroad.fbauction.model;
 
 import lombok.Getter;
 import lombok.Setter;

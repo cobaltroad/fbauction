@@ -1,6 +1,6 @@
 package com.cobaltroad.fbauction.database;
 
-import com.cobaltroad.fbauction.listener.LeagueStat;
+import com.cobaltroad.fbauction.model.LeagueStat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
