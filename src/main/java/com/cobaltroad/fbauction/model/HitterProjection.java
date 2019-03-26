@@ -20,6 +20,8 @@ public class HitterProjection {
     private int id;
 
     private String source;
+    private String league;  // helper column to make queries easier
+
     private int gamesPlayed;
     private int plateAppearances;
     private int atBats;

@@ -27,6 +27,9 @@ public class PlayerRepositoryTest {
     @Autowired
     PlayerRepository repository;
 
+    @Autowired
+    HitterProjectionRepository hitterProjectionRepository;
+
     private Hitter hitter;
 
     @BeforeEach

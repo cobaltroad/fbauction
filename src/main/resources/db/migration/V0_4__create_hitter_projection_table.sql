@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS hitter_projection(
   hit_by_pitch      INTEGER,
   hits              INTEGER,
   homeruns          INTEGER,
+  league            VARCHAR(255),
   plate_appearances INTEGER,
   runs              INTEGER,
   runs_batted_in    INTEGER,
