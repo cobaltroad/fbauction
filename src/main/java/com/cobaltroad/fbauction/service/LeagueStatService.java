@@ -32,38 +32,12 @@ public class LeagueStatService {
         saveLeagueStat(league + ":stddev:atbats", sigma);
     }
 
-    public double battingAverageRatingFor(HitterProjection projection) {
-        String league = projection.getLeague();
-        double muHits = getLeagueStat(league + ":average:hits");
-        double sigmaHits = getLeagueStat(league + ":stddev:hits");
-
-        int projectionHits = projection.getHits();
-        double devsFromMeanHits = (projectionHits - muHits) / sigmaHits;
-
-        double muAtBats = getLeagueStat(league + ":average:atbats");
-        double sigmaAtBats = getLeagueStat(league + ":stddev:atbats");
-
-        int projectionAtBats = projection.getAtBats();
-        double devsFromMeanAtBats = (projectionAtBats - muAtBats) / sigmaAtBats;
-
-        return devsFromMeanHits - devsFromMeanAtBats;
-    }
-
     public void aggregateRuns(String league) {
         double mu = hitterProjectionRepository.averageOfAllRuns(league);
         double sigma = hitterProjectionRepository.stddevOfAllRuns(league);
 
         saveLeagueStat(league + ":average:runs", mu);
         saveLeagueStat(league + ":stddev:runs", sigma);
-    }
-
-    public double runsRatingFor(HitterProjection projection) {
-        String league = projection.getLeague();
-        double mu = getLeagueStat(league + ":average:runs");
-        double sigma = getLeagueStat(league + ":stddev:runs");
-
-        int projectedStat = projection.getRuns();
-        return (projectedStat - mu) / sigma;
     }
 
     public void aggregateRBIs(String league) {
@@ -74,30 +48,12 @@ public class LeagueStatService {
         saveLeagueStat(league + ":stddev:rbi", sigma);
     }
 
-    public double rbiRatingFor(HitterProjection projection) {
-        String league = projection.getLeague();
-        double mu = getLeagueStat(league + ":average:rbi");
-        double sigma = getLeagueStat(league + ":stddev:rbi");
-
-        int projectedStat = projection.getRunsBattedIn();
-        return (projectedStat - mu) / sigma;
-    }
-
     public void aggregateHRs(String league) {
         double mu = hitterProjectionRepository.averageOfAllHRs(league);
         double sigma = hitterProjectionRepository.stddevOfAllHRs(league);
 
         saveLeagueStat(league + ":average:hr", mu);
         saveLeagueStat(league + ":stddev:hr", sigma);
-    }
-
-    public double homerunRatingFor(HitterProjection projection) {
-        String league = projection.getLeague();
-        double mu = getLeagueStat(league + ":average:hr");
-        double sigma = getLeagueStat(league + ":stddev:hr");
-
-        int projectedStat = projection.getHomeruns();
-        return (projectedStat - mu) / sigma;
     }
 
     public void aggregateSBs(String league) {
@@ -108,13 +64,20 @@ public class LeagueStatService {
         saveLeagueStat(league + ":stddev:sb", sigma);
     }
 
-    public double stolenBaseRatingFor(HitterProjection projection) {
-        String league = projection.getLeague();
-        double mu = getLeagueStat(league + ":average:sb");
-        double sigma = getLeagueStat(league + ":stddev:sb");
+    public void updateRatings() {
+        for (HitterProjection projection : hitterProjectionRepository.findAll()) {
+            String league = projection.getLeague();
 
-        int projectedStat = projection.getStolenBases();
-        return (projectedStat - mu) / sigma;
+            double hitsRating = ratingFor(league, "hits", projection.getHits());
+            double atBatsRating = ratingFor(league, "atbats", projection.getAtBats());
+            projection.setBattingAverageRating(hitsRating - atBatsRating);
+            projection.setRunsRating(ratingFor(league, "runs", projection.getRuns()));
+            projection.setRbiRating(ratingFor(league, "rbi", projection.getRunsBattedIn()));
+            projection.setHomerunRating(ratingFor(league, "hr", projection.getHomeruns()));
+            projection.setStolenBaseRating(ratingFor(league, "sb", projection.getStolenBases()));
+
+            hitterProjectionRepository.save(projection);
+        }
     }
 
     private void saveLeagueStat(String key, double value) {
@@ -129,7 +92,13 @@ public class LeagueStatService {
 
     private double getLeagueStat(String key) {
         LeagueStat ls = leagueStatRepository.findFirstByKey(key);
-        return ls.getValue();
+        return null == ls ? 0.0 : ls.getValue();
     }
 
+    private double ratingFor(String league, String statKey, int projectedStat) {
+        double mu = getLeagueStat(league + ":average:" + statKey);
+        double sigma = getLeagueStat(league + ":stddev:" + statKey);
+
+        return (projectedStat - mu) / sigma;
+    }
 }

@@ -47,9 +47,11 @@ public class LeagueStatServiceTest {
         assertEquals(114.0, leagueStatRepository.valueOf("nl:average:atbats"));
         assertEquals(125.73, leagueStatRepository.valueOf("nl:stddev:atbats"), 0.01);
 
-        assertEquals(-0.16, service.battingAverageRatingFor(projection1), 0.01);
-        assertEquals( 0.31, service.battingAverageRatingFor(projection2), 0.01);
-        assertEquals(-0.15, service.battingAverageRatingFor(projection3), 0.01);
+        service.updateRatings();
+
+        assertEquals(-0.16, projection1.getBattingAverageRating(), 0.01);
+        assertEquals( 0.31, projection2.getBattingAverageRating(), 0.01);
+        assertEquals(-0.15, projection3.getBattingAverageRating(), 0.01);
     }
 
     @Test
@@ -68,9 +70,11 @@ public class LeagueStatServiceTest {
         assertEquals(76.67, leagueStatRepository.valueOf("nl:average:runs"), 0.01);
         assertEquals(25.17, leagueStatRepository.valueOf("nl:stddev:runs"), 0.01);
 
-        assertEquals(-1.06, service.runsRatingFor(projection1), 0.01);
-        assertEquals( 0.93, service.runsRatingFor(projection2), 0.01);
-        assertEquals( 0.13, service.runsRatingFor(projection3), 0.01);
+        service.updateRatings();
+
+        assertEquals(-1.06, projection1.getRunsRating(), 0.01);
+        assertEquals( 0.93, projection2.getRunsRating(), 0.01);
+        assertEquals( 0.13, projection3.getRunsRating(), 0.01);
     }
 
     @Test
@@ -89,9 +93,11 @@ public class LeagueStatServiceTest {
         assertEquals(76.67, leagueStatRepository.valueOf("nl:average:rbi"), 0.01);
         assertEquals(25.17, leagueStatRepository.valueOf("nl:stddev:rbi"), 0.01);
 
-        assertEquals(-1.06, service.rbiRatingFor(projection1), 0.01);
-        assertEquals( 0.93, service.rbiRatingFor(projection2), 0.01);
-        assertEquals( 0.13, service.rbiRatingFor(projection3), 0.01);
+        service.updateRatings();
+
+        assertEquals(-1.06, projection1.getRbiRating(), 0.01);
+        assertEquals( 0.93, projection2.getRbiRating(), 0.01);
+        assertEquals( 0.13, projection3.getRbiRating(), 0.01);
     }
 
     @Test
@@ -110,9 +116,11 @@ public class LeagueStatServiceTest {
         assertEquals(76.67, leagueStatRepository.valueOf("nl:average:hr"), 0.01);
         assertEquals(25.17, leagueStatRepository.valueOf("nl:stddev:hr"), 0.01);
 
-        assertEquals(-1.06, service.homerunRatingFor(projection1), 0.01);
-        assertEquals( 0.93, service.homerunRatingFor(projection2), 0.01);
-        assertEquals( 0.13, service.homerunRatingFor(projection3), 0.01);
+        service.updateRatings();
+
+        assertEquals(-1.06, projection1.getHomerunRating(), 0.01);
+        assertEquals( 0.93, projection2.getHomerunRating(), 0.01);
+        assertEquals( 0.13, projection3.getHomerunRating(), 0.01);
     }
 
     @Test
@@ -131,9 +139,12 @@ public class LeagueStatServiceTest {
         assertEquals(76.67, leagueStatRepository.valueOf("nl:average:sb"), 0.01);
         assertEquals(25.17, leagueStatRepository.valueOf("nl:stddev:sb"), 0.01);
 
-        assertEquals(-1.06, service.stolenBaseRatingFor(projection1), 0.01);
-        assertEquals( 0.93, service.stolenBaseRatingFor(projection2), 0.01);
-        assertEquals( 0.13, service.stolenBaseRatingFor(projection3), 0.01);
+        service.updateRatings();
+
+        assertEquals(-1.06, projection1.getStolenBaseRating(), 0.01);
+        assertEquals( 0.93, projection2.getStolenBaseRating(), 0.01);
+        assertEquals( 0.13, projection3.getStolenBaseRating(), 0.01);
+
     }
 
 }

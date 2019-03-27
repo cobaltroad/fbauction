@@ -1,9 +1,6 @@
 package com.cobaltroad.fbauction.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +34,12 @@ public class HitterProjection {
     private int hitByPitch;
     private int stolenBases;
     private int caughtStealing;
+
+    private double battingAverageRating;
+    private double runsRating;
+    private double rbiRating;
+    private double homerunRating;
+    private double stolenBaseRating;
 
     public double battingAverage() {
         return hits * 1.0 / atBats;
