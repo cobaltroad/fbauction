@@ -20,6 +20,9 @@ public class HitterProjection {
     private String source;
     private String league;  // helper column to make queries easier
 
+    private String fullName; // helper column to make CSV import easier
+    private String teamName; // helper column to make CSV import easier
+
     private int gamesPlayed;
     private int plateAppearances;
     private int atBats;
