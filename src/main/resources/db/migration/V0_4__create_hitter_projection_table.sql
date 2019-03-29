@@ -1,6 +1,5 @@
 CREATE TABLE hitter_projection
 (
-  id                     INTEGER NOT NULL PRIMARY KEY,
   at_bats                INTEGER,
   batting_average_rating DOUBLE PRECISION,
   caught_stealing        INTEGER,
@@ -22,5 +21,5 @@ CREATE TABLE hitter_projection
   strikeouts             INTEGER,
   triples                INTEGER,
   walks                  INTEGER,
-  hitter_id              INTEGER REFERENCES player
+  hitter_id              INTEGER NOT NULL PRIMARY KEY REFERENCES player
 );

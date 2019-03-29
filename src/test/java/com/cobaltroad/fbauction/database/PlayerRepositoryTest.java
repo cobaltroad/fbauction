@@ -6,6 +6,7 @@ import com.cobaltroad.fbauction.model.Hitter;
 import com.cobaltroad.fbauction.model.HitterProjection;
 import com.cobaltroad.fbauction.model.Player;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Disabled
 public class PlayerRepositoryTest {
     @Autowired
     PlayerRepository repository;
@@ -96,17 +98,6 @@ public class PlayerRepositoryTest {
         assertTrue(players.contains(alHitter));
         assertFalse(players.contains(nlHitter));
     }
-
-//    @Test
-//    public void hitterHasProjections() {
-//        HitterProjection projection = HitterProjection.builder().teamName("foo").build();
-//        hitter.setProjection(projection);
-//        repository.save(hitter);
-//
-//        Hitter actual = (Hitter) repository.findByName("foo", "bar");
-//        String source = actual.getProjection().getTeamName();
-//        assertEquals("foo", source);
-//    }
 
     @Test
     public void hitterCanBeCreatedFromProjections() {

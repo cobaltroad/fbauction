@@ -2,8 +2,6 @@ package com.cobaltroad.fbauction.service;
 
 import com.cobaltroad.fbauction.database.HitterProjectionRepository;
 import com.cobaltroad.fbauction.database.LeagueStatRepository;
-import com.cobaltroad.fbauction.database.PlayerRepository;
-import com.cobaltroad.fbauction.model.Hitter;
 import com.cobaltroad.fbauction.model.HitterProjection;
 import com.cobaltroad.fbauction.model.LeagueStat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ public class LeagueStatService {
 
     @Autowired
     LeagueStatRepository leagueStatRepository;
-
-    @Autowired
-    PlayerRepository playerRepository;
 
     Map<String, Double> leagueStatCache = new HashMap<>();
 
@@ -110,10 +105,7 @@ public class LeagueStatService {
                                  projection.getStolenBaseRating();
             projection.setTotalRating(totalRating);
 
-//            Hitter hitter = new Hitter(projection);
-//            playerRepository.save(hitter);
-//            projection.setHitter(hitter);
-//            hitterProjectionRepository.save(projection);
+            hitterProjectionRepository.save(projection);
         }
     }
 

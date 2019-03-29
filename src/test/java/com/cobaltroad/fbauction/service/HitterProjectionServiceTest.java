@@ -17,10 +17,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@Transactional
+@Transactional
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-//@Disabled
+@Disabled
 public class HitterProjectionServiceTest {
     @Autowired
     HitterProjectionService service;
