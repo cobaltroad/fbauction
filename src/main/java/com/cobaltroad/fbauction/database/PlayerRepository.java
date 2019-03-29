@@ -19,7 +19,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     List<Player> findByTeamIn(EnumSet<Team> teams);
 
     default Player findByName(String firstName, String lastName) {
-        return findByFirstNameAndLastName(firstName, lastName).get(0);
+        List<Player> names = findByFirstNameAndLastName(firstName, lastName);
+        return names.size() == 0 ? null : names.get(0);
     }
 
     default List<Player> findByNationalLeague() {

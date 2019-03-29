@@ -1,6 +1,5 @@
 package com.cobaltroad.fbauction.service;
 
-import com.cobaltroad.fbauction.database.HitterProjectionRepository;
 import com.cobaltroad.fbauction.database.PlayerRepository;
 import com.cobaltroad.fbauction.enumeration.Team;
 import com.cobaltroad.fbauction.model.Hitter;
@@ -25,9 +24,6 @@ import static com.cobaltroad.fbauction.enumeration.Team.nlTeams;
 
 @Service
 public class HitterProjectionService {
-
-//    @Autowired
-//    HitterProjectionRepository repository;
 
     @Autowired
     PlayerRepository repository;

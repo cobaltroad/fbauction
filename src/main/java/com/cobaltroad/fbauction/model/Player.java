@@ -1,10 +1,7 @@
 package com.cobaltroad.fbauction.model;
 
 import com.cobaltroad.fbauction.enumeration.Team;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,6 +18,9 @@ public abstract class Player {
 
     private String firstName;
     private String lastName;
+
+    @Setter
+    private int rosterId = 0;
 
     @Enumerated(EnumType.STRING)
     @Getter
@@ -45,5 +45,9 @@ public abstract class Player {
 
     public String getName() {
         return firstName + " " + lastName;
+    }
+
+    public boolean isAvailable() {
+        return rosterId == 0;
     }
 }
