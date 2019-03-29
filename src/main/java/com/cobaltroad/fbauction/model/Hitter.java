@@ -1,11 +1,18 @@
 package com.cobaltroad.fbauction.model;
 
 import com.cobaltroad.fbauction.enumeration.Position;
+import com.cobaltroad.fbauction.enumeration.Team;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 import java.util.List;
+
+import static com.cobaltroad.fbauction.enumeration.Team.alTeams;
+import static com.cobaltroad.fbauction.enumeration.Team.nlTeams;
 
 @Entity
 @DiscriminatorValue(value = "hitter")
@@ -19,12 +26,20 @@ public class Hitter extends Player {
     @CollectionTable(name = "hitter_position", joinColumns = @JoinColumn(name = "hitter_id"))
     private List<Position> positions;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "hitter_id")
-    private List<HitterProjection> projections;
+    @OneToOne(mappedBy = "hitter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private HitterProjection projection;
 
+    public Hitter() {
+        super();
+    }
     public Hitter(String firstName, String lastName) {
         super(firstName, lastName);
+    }
+
+    public Hitter(HitterProjection projection) {
+        super(projection);
+        projection.setHitter(this);
+        this.projection = projection;
     }
 
     public boolean isA(Position position) {

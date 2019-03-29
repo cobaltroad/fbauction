@@ -2,9 +2,7 @@ package com.cobaltroad.fbauction.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -14,10 +12,8 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class HitterProjection {
     @Id
-    @GeneratedValue
     private int id;
 
-    private String source;
     private String league;  // helper column to make queries easier
 
     private String fullName; // helper column to make CSV import easier
@@ -43,6 +39,12 @@ public class HitterProjection {
     private double rbiRating;
     private double homerunRating;
     private double stolenBaseRating;
+
+    private double totalRating;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private Hitter hitter;
 
     public double battingAverage() {
         return hits * 1.0 / atBats;

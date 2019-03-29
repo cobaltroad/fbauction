@@ -3,6 +3,7 @@ package com.cobaltroad.fbauction.model;
 import com.cobaltroad.fbauction.enumeration.Team;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "player")
 @AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "player_type")
 public abstract class Player {
@@ -28,6 +30,17 @@ public abstract class Player {
     public Player(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Player(HitterProjection projection) {
+        String fullName = projection.getFullName();
+        String[] names = fullName.split("\\s", 2);
+        this.firstName = names[0];
+        this.lastName = names[1];
+
+        String teamName = projection.getTeamName();
+        Team team = teamName.isEmpty() ? null : Team.valueOf(teamName.toUpperCase().replace(' ', '_'));
+        this.team = team;
     }
 
     public String getName() {

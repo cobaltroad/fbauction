@@ -13,7 +13,6 @@ public class HitterProjectionTest {
     @BeforeEach
     public void setup() {
         projection = HitterProjection.builder()
-                .source("foo")
                 .gamesPlayed(145)
                 .plateAppearances(628)
                 .atBats(495)

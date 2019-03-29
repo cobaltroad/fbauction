@@ -2,10 +2,15 @@ package com.cobaltroad.fbauction.service;
 
 import com.cobaltroad.fbauction.database.HitterProjectionRepository;
 import com.cobaltroad.fbauction.database.LeagueStatRepository;
+import com.cobaltroad.fbauction.database.PlayerRepository;
+import com.cobaltroad.fbauction.model.Hitter;
 import com.cobaltroad.fbauction.model.HitterProjection;
 import com.cobaltroad.fbauction.model.LeagueStat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class LeagueStatService {
@@ -15,6 +20,28 @@ public class LeagueStatService {
 
     @Autowired
     LeagueStatRepository leagueStatRepository;
+
+    @Autowired
+    PlayerRepository playerRepository;
+
+    Map<String, Double> leagueStatCache = new HashMap<>();
+
+    public void aggregateStatsAndRatings() {
+        aggregateStats("al");
+        aggregateStats("nl");
+        aggregateStats("fa");
+        leagueStatCache = new HashMap<>();
+        updateRatings();
+    }
+
+    private void aggregateStats(String league) {
+        aggregateHits(league);
+        aggregateAtBats(league);
+        aggregateRuns(league);
+        aggregateRBIs(league);
+        aggregateHRs(league);
+        aggregateSBs(league);
+    }
 
     public void aggregateHits(String league) {
         double mu = hitterProjectionRepository.averageOfAllHits(league);
@@ -76,7 +103,17 @@ public class LeagueStatService {
             projection.setHomerunRating(ratingFor(league, "hr", projection.getHomeruns()));
             projection.setStolenBaseRating(ratingFor(league, "sb", projection.getStolenBases()));
 
-            hitterProjectionRepository.save(projection);
+            double totalRating = projection.getBattingAverageRating() +
+                                 projection.getRunsRating() +
+                                 projection.getRbiRating() +
+                                 projection.getHomerunRating() +
+                                 projection.getStolenBaseRating();
+            projection.setTotalRating(totalRating);
+
+//            Hitter hitter = new Hitter(projection);
+//            playerRepository.save(hitter);
+//            projection.setHitter(hitter);
+//            hitterProjectionRepository.save(projection);
         }
     }
 
@@ -91,8 +128,15 @@ public class LeagueStatService {
     }
 
     private double getLeagueStat(String key) {
-        LeagueStat ls = leagueStatRepository.findFirstByKey(key);
-        return null == ls ? 0.0 : ls.getValue();
+        double cachedLeagueStat;
+        if (null == leagueStatCache.get(key)) {
+            LeagueStat ls = leagueStatRepository.findFirstByKey(key);
+            cachedLeagueStat = null == ls ? 0.0 : ls.getValue();
+            leagueStatCache.put(key, cachedLeagueStat);
+        } else {
+            cachedLeagueStat = leagueStatCache.get(key);
+        }
+        return cachedLeagueStat;
     }
 
     private double ratingFor(String league, String statKey, int projectedStat) {

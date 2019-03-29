@@ -27,9 +27,6 @@ public class PlayerRepositoryTest {
     @Autowired
     PlayerRepository repository;
 
-    @Autowired
-    HitterProjectionRepository hitterProjectionRepository;
-
     private Hitter hitter;
 
     @BeforeEach
@@ -100,15 +97,29 @@ public class PlayerRepositoryTest {
         assertFalse(players.contains(nlHitter));
     }
 
-    @Test
-    public void hitterHasProjections() {
-        HitterProjection projection = HitterProjection.builder().source("foo").build();
-        List<HitterProjection> projections = Arrays.asList(projection);
-        hitter.setProjections(projections);
-        repository.save(hitter);
+//    @Test
+//    public void hitterHasProjections() {
+//        HitterProjection projection = HitterProjection.builder().teamName("foo").build();
+//        hitter.setProjection(projection);
+//        repository.save(hitter);
+//
+//        Hitter actual = (Hitter) repository.findByName("foo", "bar");
+//        String source = actual.getProjection().getTeamName();
+//        assertEquals("foo", source);
+//    }
 
-        Hitter actual = (Hitter) repository.findByName("foo", "bar");
-        String source = actual.getProjections().get(0).getSource();
-        assertEquals("foo", source);
+    @Test
+    public void hitterCanBeCreatedFromProjections() {
+        HitterProjection projection = HitterProjection.builder().fullName("Foo Bar").teamName("Dodgers").build();
+
+        Hitter newHitter = new Hitter(projection);
+        repository.save(newHitter);
+
+        List<Player> players = repository.findByNationalLeague();
+        assertEquals(1, players.size());
+        assertTrue(players.contains(newHitter));
+
+        Hitter actual = (Hitter) repository.findByName("Foo", "Bar");
+        assertEquals(newHitter, actual);
     }
 }

@@ -1,7 +1,9 @@
 package com.cobaltroad.fbauction.service;
 
 import com.cobaltroad.fbauction.database.HitterProjectionRepository;
+import com.cobaltroad.fbauction.database.PlayerRepository;
 import com.cobaltroad.fbauction.enumeration.Team;
+import com.cobaltroad.fbauction.model.Hitter;
 import com.cobaltroad.fbauction.model.HitterProjection;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -24,8 +26,11 @@ import static com.cobaltroad.fbauction.enumeration.Team.nlTeams;
 @Service
 public class HitterProjectionService {
 
+//    @Autowired
+//    HitterProjectionRepository repository;
+
     @Autowired
-    HitterProjectionRepository repository;
+    PlayerRepository repository;
 
     public void importCsv(String resourcePath) throws URISyntaxException, IOException {
         Map<String, String> mapping = new HashMap<>();
@@ -75,7 +80,8 @@ public class HitterProjectionService {
                     projection.setLeague("unknown");
                 }
             }
-            repository.save(projection);
+            Hitter hitter = new Hitter(projection);
+            repository.save(hitter);
         }
     }
 }

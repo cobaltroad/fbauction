@@ -1,6 +1,7 @@
 package com.cobaltroad.fbauction.database;
 
 import com.cobaltroad.fbauction.model.HitterProjection;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Disabled
 public class HitterProjectionRepositoryTest {
 
     @Autowired

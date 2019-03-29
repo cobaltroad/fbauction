@@ -3,6 +3,7 @@ package com.cobaltroad.fbauction.service;
 import com.cobaltroad.fbauction.database.HitterProjectionRepository;
 import com.cobaltroad.fbauction.database.LeagueStatRepository;
 import com.cobaltroad.fbauction.model.HitterProjection;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Disabled
 public class LeagueStatServiceTest {
 
     @Autowired
