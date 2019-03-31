@@ -19,8 +19,11 @@ public abstract class Player {
     private String firstName;
     private String lastName;
 
+    @ManyToOne
+    @JoinColumn(name = "roster_id")
+    @Getter
     @Setter
-    private int rosterId = 0;
+    private Roster roster;
 
     @Enumerated(EnumType.STRING)
     @Getter
@@ -48,6 +51,6 @@ public abstract class Player {
     }
 
     public boolean isAvailable() {
-        return rosterId == 0;
+        return roster == null;
     }
 }
