@@ -46,6 +46,17 @@ public abstract class Player {
         this.team = team;
     }
 
+    public Player(PitcherProjection projection) {
+        String fullName = projection.getFullName();
+        String[] names = fullName.split("\\s", 2);
+        this.firstName = names[0];
+        this.lastName = names[1];
+
+        String teamName = projection.getTeamName();
+        Team team = teamName.isEmpty() ? null : Team.valueOf(teamName.toUpperCase().replace(' ', '_'));
+        this.team = team;
+    }
+
     public String getName() {
         return firstName + " " + lastName;
     }

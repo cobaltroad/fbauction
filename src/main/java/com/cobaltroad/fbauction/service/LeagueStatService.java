@@ -2,8 +2,10 @@ package com.cobaltroad.fbauction.service;
 
 import com.cobaltroad.fbauction.database.HitterProjectionRepository;
 import com.cobaltroad.fbauction.database.LeagueStatRepository;
+import com.cobaltroad.fbauction.database.PitcherProjectionRepository;
 import com.cobaltroad.fbauction.model.HitterProjection;
 import com.cobaltroad.fbauction.model.LeagueStat;
+import com.cobaltroad.fbauction.model.PitcherProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class LeagueStatService {
 
     @Autowired
     HitterProjectionRepository hitterProjectionRepository;
+
+    @Autowired
+    PitcherProjectionRepository pitcherProjectionRepository;
 
     @Autowired
     LeagueStatRepository leagueStatRepository;
@@ -36,6 +41,70 @@ public class LeagueStatService {
         aggregateRBIs(league);
         aggregateHRs(league);
         aggregateSBs(league);
+
+        aggregateEarnedRuns(league);
+        aggregateInningsPitched(league);
+        aggregateWins(league);
+        aggregateStrikeouts(league);
+        aggregateWalks(league);
+        aggregateHitsAllowed(league);
+        aggregateSaves(league);
+    }
+
+    public void aggregateEarnedRuns(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllERs(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllERs(league);
+
+        saveLeagueStat(league + ":average:er", mu);
+        saveLeagueStat(league + ":stddev:er", sigma);
+    }
+
+    public void aggregateInningsPitched(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllIPs(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllIPs(league);
+
+        saveLeagueStat(league + ":average:ip", mu);
+        saveLeagueStat(league + ":stddev:ip", sigma);
+    }
+
+    public void aggregateWins(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllWins(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllWins(league);
+
+        saveLeagueStat(league + ":average:wins", mu);
+        saveLeagueStat(league + ":stddev:wins", sigma);
+    }
+
+    public void aggregateStrikeouts(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllKs(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllKs(league);
+
+        saveLeagueStat(league + ":average:k", mu);
+        saveLeagueStat(league + ":stddev:k", sigma);
+    }
+
+    public void aggregateWalks(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllWalks(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllWalks(league);
+
+        saveLeagueStat(league + ":average:walks", mu);
+        saveLeagueStat(league + ":stddev:walks", sigma);
+    }
+
+    public void aggregateHitsAllowed(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllHits(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllHits(league);
+
+        saveLeagueStat(league + ":average:hitsallowed", mu);
+        saveLeagueStat(league + ":stddev:hitsallowed", sigma);
+    }
+
+    public void aggregateSaves(String league) {
+        double mu = pitcherProjectionRepository.averageOfAllSaves(league);
+        double sigma = pitcherProjectionRepository.stddevOfAllSaves(league);
+
+        saveLeagueStat(league + ":average:saves", mu);
+        saveLeagueStat(league + ":stddev:saves", sigma);
     }
 
     public void aggregateHits(String league) {
@@ -105,7 +174,30 @@ public class LeagueStatService {
                                  projection.getStolenBaseRating();
             projection.setTotalRating(totalRating);
 
-            hitterProjectionRepository.save(projection);
+//            hitterProjectionRepository.save(projection);
+        }
+
+        for (PitcherProjection projection : pitcherProjectionRepository.findAll()) {
+            String league = projection.getLeague();
+
+            double earnedRunsRating = ratingFor(league, "er", projection.getEarnedRuns());
+            double inningsPitchedRating = ratingFor(league, "ip", (int) Math.round(projection.getInningsPitched()));
+            projection.setEarnedRunAverageRating(inningsPitchedRating - earnedRunsRating);
+            projection.setWinsRating(ratingFor(league, "wins", projection.getWins()));
+            projection.setStrikeoutsRating(ratingFor(league, "k", projection.getStrikeouts()));
+            double walksRating = ratingFor(league, "walks", projection.getWalks());
+            double hitsAllowedRating = ratingFor(league, "hitsallowed", projection.getHits());
+            projection.setWhipRating(inningsPitchedRating - walksRating - hitsAllowedRating);
+            projection.setSavesRating(ratingFor(league, "saves", projection.getSaves()));
+
+            double totalRating = projection.getEarnedRunAverageRating() +
+                                 projection.getWinsRating() +
+                                 projection.getStrikeoutsRating() +
+                                 projection.getWhipRating() +
+                                 projection.getSavesRating();
+            projection.setTotalRating(totalRating);
+
+            pitcherProjectionRepository.save(projection);
         }
     }
 
@@ -135,7 +227,8 @@ public class LeagueStatService {
         double mu = getLeagueStat(league + ":average:" + statKey);
         double sigma = getLeagueStat(league + ":stddev:" + statKey);
 
-        return (projectedStat - mu) / sigma;
+        double rating = (projectedStat - mu) / sigma;
+        return (Double.isNaN(rating)) ? 0.0 : rating;
     }
 
 }

@@ -1,12 +1,13 @@
 package com.cobaltroad.fbauction.service;
 
-import com.cobaltroad.fbauction.database.HitterProjectionRepository;
+import com.cobaltroad.fbauction.database.PitcherProjectionRepository;
 import com.cobaltroad.fbauction.model.HitterProjection;
-import org.junit.jupiter.api.Disabled;
+import com.cobaltroad.fbauction.model.PitcherProjection;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -18,27 +19,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Disabled
-public class HitterProjectionServiceTest {
+public class PitcherProjectionServiceTest {
     @Autowired
-    HitterProjectionService service;
+    PitcherProjectionService service;
 
     @Autowired
     LeagueStatService leagueStatService;
 
     @Autowired
-    HitterProjectionRepository repository;
+    PitcherProjectionRepository repository;
+
 
     @Test
-    public void importHittersCsv() throws IOException, URISyntaxException {
-        service.importCsv("fangraphs-batters.csv");
-        List<HitterProjection> projections = repository.findAll();
-        assertEquals(1265, projections.size());
+    public void importPitchersCsv() throws IOException, URISyntaxException {
+//        service.importCsv("fangraphs-pitchers.csv");
+        List<PitcherProjection> projections = repository.findAll();
+        assertEquals(1409, projections.size());
 
         leagueStatService.aggregateStatsAndRatings();
 
         Sort sort = new Sort(Sort.Direction.DESC, "totalRating");
-        List<HitterProjection> ratedProjections = repository.findAll(sort);
-        assertEquals(1265, ratedProjections.size());
+        List<PitcherProjection> ratedProjections = repository.findAll(sort);
+        assertEquals(1409, ratedProjections.size());
     }
 }

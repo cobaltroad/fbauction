@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class HitterProjection {
     @Id
-    private int id;
+    private int id; // not used by database, but used in bean creation
 
     private String league;  // helper column to make queries easier
 
