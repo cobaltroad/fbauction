@@ -2,6 +2,7 @@ package com.cobaltroad.fbauction.database;
 
 import com.cobaltroad.fbauction.enumeration.Team;
 import com.cobaltroad.fbauction.model.Hitter;
+import com.cobaltroad.fbauction.model.Pitcher;
 import com.cobaltroad.fbauction.model.Player;
 import com.cobaltroad.fbauction.model.Roster;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -53,25 +53,54 @@ public class RosterRepositoryTest {
     }
 
     @Test
-    public void teamRocca() {
-        Map<String, Team> p = new HashMap<>();
-        p.put("Ronald Guzman", Team.RANGERS);
-        p.put("Rougned Odor", Team.RANGERS);
-        p.put("Chad Pinder", Team.ATHLETICS);
-        p.put("Trey Mancini", Team.ORIOLES);
-        p.put("Daniel Palka", Team.WHITE_SOX);
+    public void alGrant() {
+        saveToRoster(new Object[][] {
+                {"Matt Olson", Team.ATHLETICS},
+                {"Troy Tulowitzki", Team.YANKEES},
+                {"Kendrys Morales", Team.ATHLETICS},
+                {"Stephen Piscotty", Team.ATHLETICS},
+                {"Mike Trout", Team.ANGELS},
+                {"Gary Sanchez", Team.YANKEES},
+                {"Jurickson Profar", Team.ATHLETICS},
+                {"Matt Chapman", Team.ATHLETICS}
+        }, new Object[][] {
+                {"Trevor Bauer", Team.INDIANS},
+                {"Shane Greene", Team.TIGERS},
+                {"Corey Kluber", Team.INDIANS},
+                {"Ty Buttrey", Team.ANGELS}
+        }, "Grant Williams", "al");
+    }
 
-        p.forEach((name, team) -> {
-            Hitter h = (Hitter) find(name, team);
-            assertNotNull(h);
-        });
+    @Test
+    public void alCatanzano() {
+        saveToRoster(new Object[][] {
+                {"Yonder Alonso", Team.WHITE_SOX},
+                {"Ryan O'Hearn", Team.ROYALS},
+                {"Yolmer Sanchez", Team.WHITE_SOX},
+        }, new Object[][] {
+                {"Ryan Yarbrough", Team.RAYS},
+                {"Gerrit Cole", Team.ASTROS},
+                {"Justin Verlander", Team.ASTROS}
+        }, "Dave Catanzano", "al");
+    }
 
-//        Hitter hitter = (Hitter) playerRepository.findByName("Bryce", "Harper");
-//        Roster roster = Roster.builder().owner("Ron").build();
-//        rosterRepository.save(roster);
-//
-//        hitter.setRoster(roster);
-//        playerRepository.save(hitter);
+    @Test
+    public void alRocca() {
+        Roster roster = rosterRepository.findFirstByOwnerAndLeague("Matt Rocca", "al");
+        Map<String, Team> hs = new HashMap<>();
+        hs.put("Ronald Guzman", Team.RANGERS);
+        hs.put("Rougned Odor", Team.RANGERS);
+        hs.put("Chad Pinder", Team.ATHLETICS);
+        hs.put("Trey Mancini", Team.ORIOLES);
+        hs.put("Daniel Palka", Team.WHITE_SOX);
+
+        saveHittersToRoster(hs, roster);
+
+        Map<String, Team> ps = new HashMap<>();
+        ps.put("Felix Pena", Team.ANGELS);
+        ps.put("Zach Britton", Team.YANKEES);
+
+        savePitchersToRoster(ps, roster);
     }
 
     @Test
@@ -87,5 +116,41 @@ public class RosterRepositoryTest {
     private Player find(String name, Team team) {
         String names[] = name.split("\\s", 2);
         return playerRepository.findFirstByFirstNameAndLastNameAndTeam(names[0], names[1], team);
+    }
+
+    private void saveToRoster(Object[][] hitter2dArray, Object[][] pitcher2dArray, String owner, String league) {
+        Roster roster = rosterRepository.findFirstByOwnerAndLeague(owner, league);
+
+        Stream.of(hitter2dArray).forEach(data -> {
+            Hitter h = (Hitter) find((String) data[0], (Team) data[1]);
+            assertNotNull(h);
+            h.setRoster(roster);
+            playerRepository.save(h);
+        });
+
+        Stream.of(pitcher2dArray).forEach(data -> {
+            Pitcher p = (Pitcher) find((String) data[0], (Team) data[1]);
+            assertNotNull(p);
+            p.setRoster(roster);
+            playerRepository.save(p);
+        });
+    }
+
+    private void saveHittersToRoster(Map<String, Team> map, Roster roster) {
+        map.forEach((name, team) -> {
+            Hitter h = (Hitter) find(name, team);
+            assertNotNull(h);
+            h.setRoster(roster);
+            playerRepository.save(h);
+        });
+    }
+
+    private void savePitchersToRoster(Map<String, Team> map, Roster roster) {
+        map.forEach((name, team) -> {
+            Pitcher p = (Pitcher) find(name, team);
+            assertNotNull(p);
+            p.setRoster(roster);
+            playerRepository.save(p);
+        });
     }
 }

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface RosterRepository extends JpaRepository<Roster, Integer> {
 
     Roster findFirstByOwnerAndName(String owner, String name);
+    Roster findFirstByOwnerAndLeague(String owner, String league);
 }
