@@ -6,8 +6,11 @@ import com.cobaltroad.fbauction.model.Pitcher;
 import com.cobaltroad.fbauction.model.Player;
 import com.cobaltroad.fbauction.model.Roster;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,11 +22,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.cobaltroad.fbauction.enumeration.Team.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class RosterRepositoryTest {
+    final static Logger logger = LoggerFactory.getLogger(RosterRepositoryTest.class);
+
     @Autowired
     RosterRepository rosterRepository;
 
@@ -32,30 +36,32 @@ public class RosterRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        Map<String, String> alMap = new HashMap<>();
-        alMap.put("Matt Rocca", "Rodney Kings");
-        alMap.put("Ron Dollete", "Michigan Left");
-        alMap.put("Matt Johnson", "Blue Crush");
-        alMap.put("Chris Pimentel", "SeaLab 2022");
-        alMap.put("Eric Field", "Field and Son");
-        alMap.put("Randy King", "Blame Buckner");
-        alMap.put("Neal Campbell", "Needle Free");
-        alMap.put("Mike Fiske", "The PerfectPlex");
-        alMap.put("Jon Chatalian", "Pythonic Pitufos");
-        alMap.put("Craig Fez", "Yabos");
-        alMap.put("Dave Catanzano", "Out of the Fog");
-        alMap.put("Grant Williams", "The Super Best Friends");
+//        Map<String, String> alMap = new HashMap<>();
+//        alMap.put("Matt Rocca", "Rodney Kings");
+//        alMap.put("Ron Dollete", "Michigan Left");
+//        alMap.put("Matt Johnson", "Blue Crush");
+//        alMap.put("Chris Pimentel", "SeaLab 2022");
+//        alMap.put("Eric Field", "Field and Son");
+//        alMap.put("Randy King", "Blame Buckner");
+//        alMap.put("Neal Campbell", "Needle Free");
+//        alMap.put("Mike Fiske", "The PerfectPlex");
+//        alMap.put("Jon Chatalian", "Pythonic Pitufos");
+//        alMap.put("Craig Fez", "Yabos");
+//        alMap.put("Dave Catanzano", "Out of the Fog");
+//        alMap.put("Grant Williams", "The Super Best Friends");
+//
+//        alMap.forEach((owner, name) -> {
+//            Roster existingRoster = rosterRepository.findFirstByOwnerAndName(owner, name);
+//            if (null == existingRoster) {
+//                Roster roster = Roster.builder().owner(owner).name(name).league("al").build();
+//                rosterRepository.save(roster);
+//            }
+//        });
 
-        alMap.forEach((owner, name) -> {
-            Roster existingRoster = rosterRepository.findFirstByOwnerAndName(owner, name);
-            if (null == existingRoster) {
-                Roster roster = Roster.builder().owner(owner).name(name).league("al").build();
-                rosterRepository.save(roster);
-            }
-        });
     }
 
     @Test
+    @Disabled
     public void alGrant() {
         saveToRoster(new Object[][] {
                 {"Matt Olson", ATHLETICS},
@@ -78,6 +84,7 @@ public class RosterRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void alCatanzano() {
         saveToRoster(new Object[][] {
                 {"Yonder Alonso", WHITE_SOX},
@@ -93,6 +100,7 @@ public class RosterRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void alFez() {
         saveToRoster(new Object[][] {
                 {"Mitch Moreland", RED_SOX},
@@ -116,6 +124,7 @@ public class RosterRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void alJon() {
         saveToRoster(new Object[][] {
                 {"Steve Pearce", RED_SOX},
@@ -138,6 +147,7 @@ public class RosterRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void alFiske() {
         saveToRoster(new Object[][] {
                 {"Tyler White", ASTROS},
@@ -160,10 +170,10 @@ public class RosterRepositoryTest {
                 {"Shohei Ohtani", ANGELS},
                 {"Triston McKenzie", INDIANS}
         }, "Mike Fiske", "al");
-
     }
 
     @Test
+    @Disabled
     public void alNeal() {
         saveToRoster(new Object[][] {
                 {"Brandon Lowe", RAYS},
@@ -186,94 +196,149 @@ public class RosterRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void alRandy() {
         saveToRoster(new Object[][] {
-
+                {"Yoan Moncada", WHITE_SOX},
+                {"Jorge Soler", ROYALS},
+                {"Aaron Judge", YANKEES},
+                {"Eloy Jimenez", WHITE_SOX},
+                {"John Hicks", TIGERS},
+                {"Blake Swihart", RED_SOX},
+                {"Rafael Devers", RED_SOX},
+                {"Nick Gordon", TWINS}
         }, new Object[][] {
-
+                {"Brad Hand", INDIANS},
+                {"David Price", RED_SOX},
+                {"Blake Snell", RAYS}
         }, "Randy King", "al");
-
     }
 
     @Test
+    @Disabled
     public void alField() {
         saveToRoster(new Object[][] {
-
+                {"Gleyber Torres", YANKEES},
+                {"J.D. Martinez", RED_SOX},
+                {"Miguel Andujar", YANKEES},
+                {"Nick Madrigal", WHITE_SOX}
         }, new Object[][] {
-
+                {"C.C. Sabathia", YANKEES},
+                {"A.J. Puk", ATHLETICS},
+                {"Kyle Gibson", TWINS},
+                // {"Casey Mize", TIGERS},
+                {"Marco Gonzales", MARINERS}
+                // {"Brady Singer", ROYALS},
+                // {"Brendan McKay", RAYS}
         }, "Eric Field", "al");
     }
 
     @Test
+    @Disabled
     public void alPimentel() {
         saveToRoster(new Object[][] {
-
+                {"Jose Abreu", WHITE_SOX},
+                {"Isiah Kiner-Falefa", RANGERS},
+                {"Cedric Mullins II", ORIOLES},
+                {"Mallex Smith", MARINERS},
+                {"Nicholas Castellanos", TIGERS},
+                {"Mike Zunino", RAYS},
+                {"Danny Jansen", BLUE_JAYS},
+                {"Adalberto Mondesi", ROYALS}
         }, new Object[][] {
-
+                {"Jakob Junis", ROYALS},
+                {"Mike Minor", RANGERS},
+                {"Lance Lynn", RANGERS}
         }, "Chris Pimentel", "al");
     }
 
     @Test
+    @Disabled
     public void alMattyJ() {
         saveToRoster(new Object[][] {
-
+                {"Justin Smoak", BLUE_JAYS},
+                {"Brian Goodwin", ANGELS},
+                {"Christin Stewart", TIGERS},
+                {"Brandon Drury", BLUE_JAYS}
         }, new Object[][] {
-
+                {"Charlie Morton", RAYS},
+                {"James Paxton", YANKEES},
+                {"Tyler Skaggs", ANGELS},
+                {"Luis Severino", YANKEES}
+                // {"Hans Crouse", RANGERS}
         }, "Matt Johnson", "al");
     }
 
-//    @Test
-//    public void alRocca() {
-//        Roster roster = rosterRepository.findFirstByOwnerAndLeague("Matt Rocca", "al");
-//        Map<String, Team> hs = new HashMap<>();
-//        hs.put("Ronald Guzman", Team.RANGERS);
-//        hs.put("Rougned Odor", Team.RANGERS);
-//        hs.put("Chad Pinder", Team.ATHLETICS);
-//        hs.put("Trey Mancini", Team.ORIOLES);
-//        hs.put("Daniel Palka", Team.WHITE_SOX);
-//
-//        saveHittersToRoster(hs, roster);
-//
-//        Map<String, Team> ps = new HashMap<>();
-//        ps.put("Felix Pena", Team.ANGELS);
-//        ps.put("Zach Britton", Team.YANKEES);
-//
-//        savePitchersToRoster(ps, roster);
-//    }
-//
-//    @Test
-//    public void teamRon() {
-//        Map<String, Team> p = new HashMap<>();
-//        p.put("Christian Vazquez", Team.RED_SOX);
-//        p.put("Whit Merrifield", Team.ROYALS);
-//        p.put("Lourdes Gurriel", Team.BLUE_JAYS);
-//        p.put("Kole Calhoun", Team.ANGELS);
-//        p.put("Robbie Grossman", Team.ATHLETICS);
-//    }
+    @Test
+    @Disabled
+    public void alRon() {
+        saveToRoster(new Object[][] {
+                {"Whit Merrifield", ROYALS},
+                {"Kole Calhoun", ANGELS},
+                {"Robbie Grossman", ATHLETICS},
+                {"Christian Vazquez", RED_SOX},
+                {"Lourdes Gurriel Jr.", BLUE_JAYS},
+                {"Zack Granite", RANGERS}
+        }, new Object[][] {
+                {"Chad Green", YANKEES},
+                {"Matthew Boyd", TIGERS},
+                {"Masahiro Tanaka", YANKEES},
+                {"Domingo German", YANKEES},
+                {"Trevor Hildenberger", TWINS},
+                {"Eduardo Rodriguez", RED_SOX},
+                {"Matt Manning", TIGERS}
+        }, "Ron Dollete", "al");
+    }
 
-    private Player find(String name, Team team, Class klass) {
+    @Test
+    @Disabled
+    public void alRocca() {
+        saveToRoster(new Object[][] {
+                {"Ronald Guzman", RANGERS},
+                {"Rougned Odor", RANGERS},
+                {"Daniel Palka", WHITE_SOX},
+                {"Chad Pinder", ATHLETICS},
+                {"Trey Mancini", ORIOLES},
+                {"Bobby Bradley", INDIANS},
+                {"Yordan Alvarez", ASTROS}
+        }, new Object[][] {
+                {"Felix Pena", ANGELS},
+                {"Zach Britton", YANKEES},
+                {"Hunter Harvey", ORIOLES}
+        }, "Matt Rocca", "al");
+    }
+
+    private Player find(String name, Team team, Class klass) throws Exception {
         String names[] = name.split("\\s", 2);
         List<Player> players =  playerRepository.findByFirstNameAndLastNameAndTeam(names[0], names[1], team);
-        return players.stream().filter(klass::isInstance).collect(Collectors.toList()).get(0);
+        try {
+            return players.stream().filter(klass::isInstance).collect(Collectors.toList()).get(0);
+        } catch (Exception e) {
+            throw new Exception("Could not find " + name + " (" + team.toString() + ")");
+        }
     }
 
     private void saveToRoster(Object[][] hitter2dArray, Object[][] pitcher2dArray, String owner, String league) {
         Roster roster = rosterRepository.findFirstByOwnerAndLeague(owner, league);
 
         Stream.of(hitter2dArray).forEach(data -> {
-            Hitter h = (Hitter) find((String) data[0], (Team) data[1], Hitter.class);
-            System.out.println("HITTER: " + data[0]);
-            assertNotNull(h);
-            h.setRoster(roster);
-            playerRepository.save(h);
+            try {
+                Hitter h = (Hitter) find((String) data[0], (Team) data[1], Hitter.class);
+                h.setRoster(roster);
+                playerRepository.save(h);
+            } catch (Exception e) {
+                logger.warn(e.getMessage());
+            }
         });
 
         Stream.of(pitcher2dArray).forEach(data -> {
-            Pitcher p = (Pitcher) find((String) data[0], (Team) data[1], Pitcher.class);
-            System.out.println("PITCHER: " + data[0]);
-            assertNotNull(p);
-            p.setRoster(roster);
-            playerRepository.save(p);
+            try {
+                Pitcher p = (Pitcher) find((String) data[0], (Team) data[1], Pitcher.class);
+                p.setRoster(roster);
+                playerRepository.save(p);
+            } catch (Exception e) {
+                logger.warn(e.getMessage());
+            }
         });
     }
 }
