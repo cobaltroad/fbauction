@@ -36,28 +36,285 @@ public class RosterRepositoryTest {
 
     @BeforeEach
     public void setup() {
-//        Map<String, String> alMap = new HashMap<>();
-//        alMap.put("Matt Rocca", "Rodney Kings");
-//        alMap.put("Ron Dollete", "Michigan Left");
-//        alMap.put("Matt Johnson", "Blue Crush");
-//        alMap.put("Chris Pimentel", "SeaLab 2022");
-//        alMap.put("Eric Field", "Field and Son");
-//        alMap.put("Randy King", "Blame Buckner");
-//        alMap.put("Neal Campbell", "Needle Free");
-//        alMap.put("Mike Fiske", "The PerfectPlex");
-//        alMap.put("Jon Chatalian", "Pythonic Pitufos");
-//        alMap.put("Craig Fez", "Yabos");
-//        alMap.put("Dave Catanzano", "Out of the Fog");
-//        alMap.put("Grant Williams", "The Super Best Friends");
-//
-//        alMap.forEach((owner, name) -> {
-//            Roster existingRoster = rosterRepository.findFirstByOwnerAndName(owner, name);
-//            if (null == existingRoster) {
-//                Roster roster = Roster.builder().owner(owner).name(name).league("al").build();
-//                rosterRepository.save(roster);
-//            }
-//        });
+        Map<String, String> nlMap = new HashMap<>();
+        nlMap.put("Matt Rocca", "Western Religion");
+        nlMap.put("Chris Pimentel", "Case O' Mondays");
+        nlMap.put("Neal Campbell", "Mint Soup");
+        nlMap.put("Jon Chatalian", "Delirium of Disorder");
+        nlMap.put("Craig Fez", "Madison Muskies");
+        nlMap.put("Matt Johnson", "Fushizzle Televizzle");
+        nlMap.put("Randy King", "Comfortably Numb");
+        nlMap.put("Grant Williams", "Los Chupanibres");
+        nlMap.put("Eric Field", "Oddfellows Local 151");
+        nlMap.put("Mike Fiske", "Army of Champions");
+        nlMap.put("Dave Catanzano", "Run T.M.C.");
+        nlMap.put("Ron Dollete", "Hungry Cats");
 
+        nlMap.forEach((owner, name) -> {
+            Roster existingRoster = rosterRepository.findFirstByOwnerAndName(owner, name);
+            if (null == existingRoster) {
+                Roster roster = Roster.builder().owner(owner).name(name).league("nl").build();
+                rosterRepository.save(roster);
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    public void nlRocca() {
+        saveToRoster(new Object[][] {
+                {"Ketel Marte", DIAMONDBACKS},
+                {"Marcell Ozuna", CARDINALS},
+                {"Cody Bellinger", DODGERS},
+                {"Kurt Suzuki", NATIONALS},
+                {"Yasmani Grandal", BREWERS},
+                {"Brandon Belt", GIANTS},
+                {"Adam Frazier", PIRATES},
+                {"Isan Diaz", MARLINS},
+                {"Cristian Pache", BRAVES}
+        }, new Object[][] {
+                {"Pedro Strop", CUBS},
+                {"Seranthony Dominguez", PHILLIES},
+                {"Arodys Vizcaino", BRAVES},
+                {"German Marquez", ROCKIES},
+                {"Trevor Richards", MARLINS},
+                {"Reyes Moronta", GIANTS},
+                {"Mitch Keller", PIRATES}
+        }, "Matt Rocca", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlPimentel() {
+        saveToRoster(new Object[][] {
+                {"Eric Hosmer", PADRES},
+                {"Wilmer Difo", NATIONALS},
+                {"David Freese", DODGERS},
+                {"Matt Kemp", REDS},
+                {"Chris Iannetta", ROCKIES},
+                {"Tyler Flowers", BRAVES},
+                {"Matt Adams", NATIONALS},
+                {"Jeff McNeil", METS}
+        }, new Object[][] {
+                {"Trevor Williams", PIRATES},
+                {"Brandon Morrow", CUBS},
+                {"Jeremy Hellickson", NATIONALS},
+                {"Brock Stewart", DODGERS}
+        }, "Chris Pimentel", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlSoup() {
+        saveToRoster(new Object[][] {
+                {"Kris Bryant", CUBS},
+                {"Juan Soto", NATIONALS},
+                {"Ronald Acuna Jr.", BRAVES},
+                {"Starling Marte", PIRATES},
+                {"Victor Robles", NATIONALS},
+                {"Wilson Ramos", METS},
+                {"Willson Contreras", CUBS},
+                {"Taylor Trammell", REDS}
+        }, new Object[][] {
+                {"Freddy Peralta", BREWERS},
+                {"Sean Doolittle", NATIONALS},
+                {"Julio Urias", DODGERS},
+                {"Walker Buehler", DODGERS},
+                {"Noah Syndergaard", METS}
+        }, "Neal Campbell", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlJon() {
+        saveToRoster(new Object[][] {
+                {"Brian Dozier", NATIONALS},
+                {"J.T. Riddle", MARLINS},
+                {"Jesse Winker", REDS},
+                {"Nick Williams", PHILLIES},
+                {"Nick Markakis", BRAVES},
+                {"Scott Schebler", REDS},
+                {"Francisco Cervelli", PIRATES},
+                {"Keston Hiura", BREWERS},
+                {"Roman Quinn", PHILLIES}
+        }, new Object[][] {
+                {"Anibal Sanchez", NATIONALS},
+                {"Miles Mikolas", CARDINALS},
+                {"Luke Weaver", DIAMONDBACKS},
+                {"Archie Bradley", DIAMONDBACKS},
+                {"Joe Musgrove", PIRATES},
+                {"Zach Eflin", PHILLIES},
+                {"Luiz Gohara", BRAVES}
+        }, "Jon Chatalian", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlFez() {
+        saveToRoster(new Object[][] {
+                {"Ozzie Albies", BRAVES},
+                {"Maikel Franco", PHILLIES},
+                {"Franmil Reyes", PADRES},
+                {"Lorenzo Cain", BREWERS},
+                {"Joc Pederson", DODGERS},
+                {"Kolten Wong", CARDINALS},
+                {"Lucas Erceg", BREWERS}
+        }, new Object[][] {
+                {"Kenley Jansen", DODGERS},
+                {"Sean Newcomb", BRAVES},
+                {"Jose Urena", MARLINS},
+                {"Patrick Corbin", NATIONALS},
+                {"Dereck Rodriguez", GIANTS},
+                {"Zack Godley", DIAMONDBACKS}
+        }, "Craig Fez", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlMattyJ() {
+        saveToRoster(new Object[][] {
+                {"Cesar Hernandez", PHILLIES},
+                {"Albert Almora Jr.", CUBS},
+                {"Alex Verdugo", DODGERS},
+                {"Christian Yelich", BREWERS},
+                {"Brendan Rodgers", ROCKIES},
+                {"Keibert Ruiz", DODGERS}
+        }, new Object[][] {
+                {"Felipe Vazquez", PIRATES},
+                {"Ross Stripling", DODGERS},
+                {"Drew Steckenrider", MARLINS},
+                {"Aaron Nola", PHILLIES},
+                {"Tyler Anderson", ROCKIES}
+                // {"Hunter Greene", REDS}
+        }, "Matt Johnson", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlRandy() {
+        saveToRoster(new Object[][] {
+                {"Hunter Renfroe", PADRES},
+                {"Austin Barnes", DODGERS},
+                {"Corey Ray", BREWERS}
+        }, new Object[][] {
+                {"Wade Davis", ROCKIES},
+                {"Max Fried", BRAVES},
+                {"Steven Matz", METS},
+                {"Julio Teheran", BRAVES},
+                {"Zack Wheeler", METS},
+                {"Tyler Beede", GIANTS}
+        }, "Randy King", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlGrant() {
+        saveToRoster(new Object[][] {
+                {"Max Muncy", DODGERS},
+                {"Daniel Murphy", ROCKIES},
+                {"Paul DeJong", CARDINALS},
+                {"Johan Camargo", BRAVES},
+                {"Rhys Hoskins", PHILLIES},
+                {"Michael A. Taylor", NATIONALS},
+                {"Yasiel Puig", REDS},
+                {"Andrew Knapp", PHILLIES},
+                {"Tucker Barnhart", REDS},
+                {"Carter Kieboom", NATIONALS}
+        }, new Object[][] {
+                {"Josh Hader", BREWERS},
+                {"Jack Flaherty", CARDINALS},
+                {"Matt Strahm", PADRES}
+        }, "Grant Williams", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlField() {
+        saveToRoster(new Object[][] {
+                {"Matt Carpenter", CARDINALS},
+                {"Corey Seager", DODGERS},
+                {"Travis Shaw", BREWERS},
+                {"Enrique Hernandez", DODGERS},
+                {"Eugenio Suarez", REDS},
+                {"Luis Urias", PADRES},
+                {"Nick Senzel", REDS}
+        }, new Object[][] {
+                {"Jhoulys Chacin", BREWERS},
+                {"Jimmy Nelson", BREWERS},
+                {"Madison Bumgarner", GIANTS},
+                {"Kyle Wright", BRAVES},
+                {"Jon Lester", CUBS}
+//                {"MacKenzie Gore", PADRES}
+        }, "Eric Field", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlFiske() {
+        saveToRoster(new Object[][] {
+                {"Javier Baez", CUBS},
+                {"Trea Turner", NATIONALS},
+                {"Anthony Rendon", NATIONALS},
+                {"David Peralta", DIAMONDBACKS},
+                {"Ben Zobrist", CUBS},
+                {"Joe Panik", GIANTS}
+        }, new Object[][] {
+                {"Seth Lugo", METS},
+                {"Rich Hill", DODGERS},
+                {"Hyun-Jin Ryu", DODGERS},
+                {"Kevin Gausman", BRAVES},
+                {"Joey Lucchesi", PADRES},
+                {"Max Scherzer", NATIONALS},
+                {"Derek Holland", GIANTS}
+        }, "Mike Fiske", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlCatanzano() {
+        saveToRoster(new Object[][] {
+                {"Josh Bell", PIRATES},
+                {"Nick Ahmed", DIAMONDBACKS},
+                {"Harrison Bader", CARDINALS},
+                {"Manuel Margot", PADRES},
+                {"Michael Conforto", METS},
+                {"Brandon Nimmo", METS},
+                {"Jorge Alfaro", MARLINS},
+                {"Jesus Aguilar", BREWERS},
+                {"Jeren Kendall", DODGERS}
+        }, new Object[][] {
+                {"Jacob Barnes", BREWERS},
+                {"Nick Pivetta", PHILLIES},
+                {"Kirby Yates", PADRES},
+                {"Vince Velasquez", PHILLIES}
+                // {"Braxton Garrett", MARLINS}
+        }, "Dave Catanzano", "nl");
+    }
+
+    @Test
+    @Disabled
+    public void nlRon() {
+        saveToRoster(new Object[][] {
+                {"Wilmer Flores", DIAMONDBACKS},
+                {"Amed Rosario", METS},
+                {"Nolan Arenado", ROCKIES},
+                {"Jose Martinez", CARDINALS},
+                {"Raimel Tapia", ROCKIES},
+                {"Chris Taylor", DODGERS},
+                {"David Dahl", ROCKIES},
+                {"Dominic Smith", METS},
+                {"Charlie Culberson", BRAVES}
+                // {"Heliot Ramos", GIANTS}
+        }, new Object[][] {
+                {"Jordan Hicks", CARDINALS},
+                {"Eric Lauer", PADRES},
+                {"Carl Edwards Jr.", CUBS},
+                {"Kyle Freeland", ROCKIES},
+                {"Luis Castillo", REDS},
+                {"Alex Wood", REDS},
+                {"Cal Quantrill", PADRES},
+                {"Yadier Alvarez", DODGERS}
+        }, "Ron Dollete", "nl");
     }
 
     @Test
