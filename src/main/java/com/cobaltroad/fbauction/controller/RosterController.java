@@ -21,4 +21,9 @@ public class RosterController {
     public RosterResponse add(@PathVariable String playerId, @PathVariable String rosterId) {
         return service.add(Integer.valueOf(rosterId), Integer.valueOf(playerId));
     }
+
+    @DeleteMapping(value = "/drop/{playerId}/from/{rosterId}", produces = "application/json")
+    public RosterResponse drop(@PathVariable String playerId, @PathVariable String rosterId) {
+        return service.drop(Integer.valueOf(rosterId), Integer.valueOf(playerId));
+    }
 }

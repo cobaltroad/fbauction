@@ -31,4 +31,8 @@ public class Roster {
         else
             this.players.add(player);
     }
+
+    public void dropPlayer(Player player) {
+        this.players.remove(player);
+    }
 }

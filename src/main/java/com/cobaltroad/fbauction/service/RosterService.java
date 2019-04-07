@@ -55,4 +55,31 @@ public class RosterService {
 
         return new RosterResponse(rosterList);
     }
+
+    public RosterResponse drop(Integer rosterId, int playerId) {
+        List<Roster> rosterList = new ArrayList<>();
+        Optional<Roster> foundRoster = repository.findById(rosterId);
+        if (foundRoster.isPresent()) {
+            Roster roster = foundRoster.get();
+            Optional<Player> foundPlayer = playerRepository.findById(playerId);
+
+            if (foundPlayer.isPresent()) {
+                Player player = foundPlayer.get();
+
+                if (player.getRoster() != null) {
+                    roster.dropPlayer(player);
+                    rosterList.add(roster);
+                } else {
+                    throw new RuntimeException("Player " + playerId + " (" + player.getName() + ") is not on a roster");
+                }
+
+            } else {
+                throw new RuntimeException("Player  " + playerId + " is not found");
+            }
+        } else {
+            throw new RuntimeException("Roster  " + rosterId + " is not found");
+        }
+
+        return new RosterResponse(rosterList);
+    }
 }
