@@ -1,8 +1,10 @@
 package com.cobaltroad.fbauction.model;
 
+import com.cobaltroad.fbauction.enumeration.Position;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.Comparator;
 
 @Entity
 @Getter
@@ -22,4 +24,13 @@ public class Pitcher extends Player {
         projection.setPitcher(this);
         this.projection = projection;
     }
+
+    // not yet used
+    public static Comparator<Object> byPitcherRating = Comparator.comparingDouble(pitcher -> ((Pitcher) pitcher).getProjection().getTotalRating()).reversed();
+
+    @Override
+    public boolean isEligibleAt(String position) {
+        return position.equalsIgnoreCase("pitcher");
+    }
+
 }

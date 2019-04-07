@@ -53,6 +53,7 @@ public class PlayerResponse {
             String team = player.getTeam() == null ? "" : player.getTeam().toString();
             String owner = player.getRoster() == null ? "" : player.getRoster().getOwner();
             PresentedPlayer presentedPlayer = new PresentedPlayer(
+                    player.getId(),
                     player.getName(),
                     team,
                     positions,
@@ -68,6 +69,7 @@ public class PlayerResponse {
     @AllArgsConstructor
     @Data
     private class PresentedPlayer {
+        private int playerId;
         private String name;
         private String team;
         private String positions;

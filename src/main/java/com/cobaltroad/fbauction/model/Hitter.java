@@ -1,19 +1,13 @@
 package com.cobaltroad.fbauction.model;
 
 import com.cobaltroad.fbauction.enumeration.Position;
-import com.cobaltroad.fbauction.enumeration.Team;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.cobaltroad.fbauction.enumeration.Team.alTeams;
-import static com.cobaltroad.fbauction.enumeration.Team.nlTeams;
 
 @Entity
 @DiscriminatorValue(value = "hitter")
@@ -57,4 +51,17 @@ public class Hitter extends Player {
     public String positionsString() {
         return positions.stream().map(Position::toString).collect(Collectors.joining(", "));
     }
+
+    // not yet used
+    public static Comparator<Object> byHitterRating = Comparator.comparingDouble(hitter -> ((Hitter) hitter).getProjection().getTotalRating()).reversed();
+
+    @Override
+    public boolean isEligibleAt(String position) {
+        if (!position.equalsIgnoreCase("pitcher")) {
+            return this.isA(Position.valueOf(position));
+        } else {
+            return false;
+        }
+    }
+
 }

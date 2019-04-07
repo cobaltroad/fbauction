@@ -17,7 +17,7 @@ import static com.cobaltroad.fbauction.enumeration.Team.alTeams;
 import static com.cobaltroad.fbauction.enumeration.Team.nlTeams;
 
 @Repository
-public interface PlayerRepository extends JpaRepository<Player, Long> {
+public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
     List<Player> findByTeam(Team team);
     List<Player> findByTeamIn(EnumSet<Team> teams);

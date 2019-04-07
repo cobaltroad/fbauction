@@ -16,4 +16,9 @@ public class RosterController {
     public RosterResponse view(@PathVariable String league, @RequestParam("owner") Optional<String> owner) {
         return service.view(league, owner);
     }
+
+    @PostMapping(value = "/add/{playerId}/to/{rosterId}", produces = "application/json")
+    public RosterResponse add(@PathVariable String playerId, @PathVariable String rosterId) {
+        return service.add(Integer.valueOf(rosterId), Integer.valueOf(playerId));
+    }
 }

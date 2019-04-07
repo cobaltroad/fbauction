@@ -14,6 +14,7 @@ import java.util.Optional;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "player_type")
+@Getter
 public abstract class Player {
     @Id
     @GeneratedValue
@@ -24,12 +25,10 @@ public abstract class Player {
 
     @ManyToOne
     @JoinColumn(name = "roster_id")
-    @Getter
     @Setter
     private Roster roster;
 
     @Enumerated(EnumType.STRING)
-    @Getter
     @Setter
     private Team team;
 
@@ -74,13 +73,5 @@ public abstract class Player {
         } else return 0.0;
     }).reversed();
 
-    public boolean isEligibleAt(String position) {
-        Boolean pitcherArg = position.equalsIgnoreCase("pitcher");
-        if (this instanceof Hitter && !pitcherArg) {
-            Hitter h = (Hitter) this;
-            return h.getPositions().contains(Position.valueOf(position));
-        } else if (this instanceof Pitcher && pitcherArg) {
-            return true;
-        } else return false;
-    }
+    public abstract boolean isEligibleAt(String position);
 }

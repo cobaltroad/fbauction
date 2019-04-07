@@ -18,6 +18,7 @@ public class RosterResponse {
 
         rosterList.forEach(roster -> {
             PresentedRoster presentedRoster = new PresentedRoster();
+            presentedRoster.setRosterId(roster.getId());
             presentedRoster.setOwner(roster.getOwner());
             presentedRoster.setLeague(roster.getLeague());
 
@@ -44,6 +45,7 @@ public class RosterResponse {
     @NoArgsConstructor
     @Setter
     private class PresentedRoster {
+        private int rosterId;
         private String owner;
         private String league;
 
