@@ -42,6 +42,7 @@ public class RosterService {
 
                 if (player.getRoster() == null) {
                     roster.addPlayer(player);
+                    repository.save(roster);
                     rosterList.add(roster);
                 } else {
                     throw new RuntimeException("Player " + playerId + " (" + player.getName() + ") is already on a roster owned by " + player.getRoster().getOwner());
@@ -68,6 +69,7 @@ public class RosterService {
 
                 if (player.getRoster() != null) {
                     roster.dropPlayer(player);
+                    repository.save(roster);
                     rosterList.add(roster);
                 } else {
                     throw new RuntimeException("Player " + playerId + " (" + player.getName() + ") is not on a roster");

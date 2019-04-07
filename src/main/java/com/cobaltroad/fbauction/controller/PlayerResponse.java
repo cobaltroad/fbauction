@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -29,11 +30,7 @@ public class PlayerResponse {
                 projection.setRunsBattedIn(hp.getRbiRating());
                 projection.setHomeruns(hp.getHomerunRating());
                 projection.setStolenBases(hp.getStolenBaseRating());
-                totalRating = hp.getBattingAverageRating() +
-                              hp.getRunsRating() +
-                              hp.getRbiRating() +
-                              hp.getHomerunRating() +
-                              hp.getStolenBaseRating();
+                totalRating = hp.getTotalRating();
             } else {
                 Pitcher p = (Pitcher) player;
                 positions = "PITCHER";
@@ -44,11 +41,7 @@ public class PlayerResponse {
                 projection.setStrikeouts(pp.getStrikeoutsRating());
                 projection.setWhip(pp.getWhipRating());
                 projection.setSaves(pp.getSavesRating());
-                totalRating = pp.getEarnedRunAverageRating() +
-                              pp.getWinsRating() +
-                              pp.getStrikeoutsRating() +
-                              pp.getWhipRating() +
-                              pp.getSavesRating();
+                totalRating = pp.getTotalRating();
             }
             String team = player.getTeam() == null ? "" : player.getTeam().toString();
             String owner = player.getRoster() == null ? "" : player.getRoster().getOwner();
@@ -62,6 +55,10 @@ public class PlayerResponse {
                     projection
             );
             presentedPlayerList.add(presentedPlayer);
+            presentedPlayerList.sort(Comparator.comparingDouble(p -> {
+                PresentedPlayer pp = (PresentedPlayer) p;
+                return pp.getTotalRating();
+            }).reversed());
         });
         this.players = presentedPlayerList;
     }

@@ -1,6 +1,7 @@
 package com.cobaltroad.fbauction.controller;
 
 import com.cobaltroad.fbauction.model.Hitter;
+import com.cobaltroad.fbauction.model.Pitcher;
 import com.cobaltroad.fbauction.model.Roster;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,8 @@ public class RosterResponse {
                 presentedPlayer.setTeam(team);
                 String positions = player instanceof Hitter ? ((Hitter) player).positionsString() : "PITCHER";
                 presentedPlayer.setPositions(positions);
+                Double rating = player instanceof Hitter ? ((Hitter) player).getProjection().getTotalRating() : ((Pitcher) player).getProjection().getTotalRating();
+                presentedPlayer.setRating(rating);
 
                 presentedPlayerList.add(presentedPlayer);
             });
@@ -59,5 +62,6 @@ public class RosterResponse {
         private String name;
         private String team;
         private String positions;
+        private double rating;
     }
 }
