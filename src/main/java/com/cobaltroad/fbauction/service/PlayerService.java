@@ -2,7 +2,7 @@ package com.cobaltroad.fbauction.service;
 
 import com.cobaltroad.fbauction.database.PlayerRepository;
 import com.cobaltroad.fbauction.model.Player;
-import com.cobaltroad.fbauction.model.QueryResponse;
+import com.cobaltroad.fbauction.controller.PlayerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class PlayerService {
     @Autowired
     PlayerRepository repository;
 
-    public QueryResponse index(String league, Optional<String> name) {
+    public PlayerResponse index(String league, Optional<String> name) {
         List<Player> players;
         if (name.isPresent()) {
             players = repository.findByLeagueAndName(league, name.get());
@@ -28,10 +28,10 @@ public class PlayerService {
             players = repository.findByLeague(league);
         }
         players.sort(byTotalRating);
-        return new QueryResponse(players);
+        return new PlayerResponse(players);
     }
 
-    public QueryResponse available(String league, Optional<String> pos) {
+    public PlayerResponse available(String league, Optional<String> pos) {
         List<Player> players;
 
         try (Stream<Player> stream = availableStreamByLeague(league)) {
@@ -42,7 +42,7 @@ public class PlayerService {
             }
         }
         players.sort(byTotalRating);
-        return new QueryResponse(players);
+        return new PlayerResponse(players);
     }
 
     private Stream<Player> availableStreamByLeague(String league) {

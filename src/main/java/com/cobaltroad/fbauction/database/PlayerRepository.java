@@ -24,11 +24,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     List<Player> findByFirstNameAndLastNameAndTeam(String firstName, String lastName, Team team);
 
-//    default Player findByName(String firstName, String lastName) {
-//        List<Player> names = findByFirstNameAndLastName(firstName, lastName);
-//        return names.size() == 0 ? null : names.get(0);
-//    }
-
     default List<Player> findByNationalLeague() {
         return findByTeamIn(nlTeams);
     }
@@ -64,16 +59,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     }
 
     List<Player> findByFirstNameContainingOrLastNameContainingAllIgnoreCase(String partialFirstName, String partialLastName);
-
-//    default List<Player> findAllAvailable(String league) {
-//        if (league.toLowerCase().equals("nl")) {
-//            return findByRosterAndTeamIn(null, nlTeams);
-//        } else if (league.toLowerCase().equals("al")) {
-//            return findByRosterAndTeamIn(null, alTeams);
-//        } else return Collections.emptyList();
-//    }
-
-//    List<Player> findByRosterAndTeamIn(Roster roster, EnumSet<Team> teams);
 
     Stream<Player> findByRosterAndTeamIn(Roster roster, EnumSet<Team> teams);
 }

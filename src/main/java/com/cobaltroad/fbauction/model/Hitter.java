@@ -10,6 +10,7 @@ import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.cobaltroad.fbauction.enumeration.Team.alTeams;
 import static com.cobaltroad.fbauction.enumeration.Team.nlTeams;
@@ -51,5 +52,9 @@ public class Hitter extends Player {
             default:
                 return positions.stream().anyMatch(p -> p == position);
         }
+    }
+
+    public String positionsString() {
+        return positions.stream().map(Position::toString).collect(Collectors.joining(", "));
     }
 }

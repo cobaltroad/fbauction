@@ -1,6 +1,6 @@
-package com.cobaltroad.fbauction.model;
+package com.cobaltroad.fbauction.controller;
 
-import com.cobaltroad.fbauction.enumeration.Position;
+import com.cobaltroad.fbauction.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,13 +8,12 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
-public class QueryResponse {
+public class PlayerResponse {
     List<PresentedPlayer> players;
 
-    public QueryResponse(List<Player> playerList) {
+    public PlayerResponse(List<Player> playerList) {
         List<PresentedPlayer> presentedPlayerList = new ArrayList<>();
         playerList.forEach(player -> {
             String positions;
@@ -22,7 +21,7 @@ public class QueryResponse {
             Double totalRating;
             if (player instanceof Hitter) {
                 Hitter h = (Hitter) player;
-                positions = h.getPositions().stream().map(Position::toString).collect(Collectors.joining(", "));
+                positions = h.positionsString();
 
                 HitterProjection hp = h.getProjection();
                 projection.setBattingAverage(hp.getBattingAverageRating());

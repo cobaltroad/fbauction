@@ -2,7 +2,6 @@ package com.cobaltroad.fbauction.controller;
 
 import com.cobaltroad.fbauction.database.*;
 import com.cobaltroad.fbauction.model.Player;
-import com.cobaltroad.fbauction.model.QueryResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +46,7 @@ public class PlayerControllerTest {
 
     @Test
     public void noSearchString() {
-        QueryResponse players = controller.index(null);
+        PlayerResponse players = controller.index(null);
         System.out.println(players);
     }
 }
