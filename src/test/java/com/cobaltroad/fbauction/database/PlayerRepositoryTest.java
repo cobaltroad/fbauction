@@ -37,6 +37,12 @@ public class PlayerRepositoryTest {
     }
 
     @Test
+    public void playersCanBeFoundByName() {
+        List<Player> players = repository.findAvailablePlayerByName("%ose%");
+        assertEquals(41, players.size());
+    }
+
+    @Test
     public void hitterCanBeCreated() {
         repository.save(hitter);
         Hitter actual = (Hitter) repository.findByName("foo", "bar");

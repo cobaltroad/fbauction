@@ -1,9 +1,12 @@
 package com.cobaltroad.fbauction.model;
 
+import com.cobaltroad.fbauction.enumeration.Position;
 import com.cobaltroad.fbauction.enumeration.Team;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Comparator;
+import java.util.Optional;
 
 @Entity
 @Table(name = "player")
@@ -61,7 +64,23 @@ public abstract class Player {
         return firstName + " " + lastName;
     }
 
-    public boolean isAvailable() {
-        return roster == null;
+    public static Comparator<Object> byTotalRating = Comparator.comparingDouble(player -> {
+        if (player instanceof Hitter) {
+            Hitter h = (Hitter) player;
+            return h.getProjection().getTotalRating();
+        } else if (player instanceof Pitcher) {
+            Pitcher p = (Pitcher) player;
+            return p.getProjection().getTotalRating();
+        } else return 0.0;
+    }).reversed();
+
+    public boolean isEligibleAt(String position) {
+        Boolean pitcherArg = position.equalsIgnoreCase("pitcher");
+        if (this instanceof Hitter && !pitcherArg) {
+            Hitter h = (Hitter) this;
+            return h.getPositions().contains(Position.valueOf(position));
+        } else if (this instanceof Pitcher && pitcherArg) {
+            return true;
+        } else return false;
     }
 }
