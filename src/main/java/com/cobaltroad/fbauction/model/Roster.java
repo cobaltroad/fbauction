@@ -21,7 +21,7 @@ public class Roster {
     private String name;
     private String league;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "roster_id")
     List<Player> players;
 
@@ -33,6 +33,7 @@ public class Roster {
     }
 
     public void dropPlayer(Player player) {
+
         this.players.remove(player);
     }
 }
